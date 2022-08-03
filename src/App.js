@@ -1,10 +1,6 @@
-
 function App() {
-  return (
-    <div>
-     Employee Directory
-    </div>
-  );
+  const name = "sandeep";
+  return <div>Employee Directory - {name}</div>
 }
 
-export default App;
+export default App
