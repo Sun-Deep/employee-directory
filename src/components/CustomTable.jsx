@@ -16,9 +16,10 @@ import PropTypes from 'prop-types'
 import { SERVER_BASE_URL } from '../config/axios'
 import Loading from './Loading'
 import ActionCard from './ActionCard'
+import { useNavigate } from 'react-router-dom'
 
 const CustomTable = ({ users, isLoading }) => {
-  console.log(users)
+  const navigate = useNavigate()
 
   return (
     <TableContainer w={'full'} overflowX={'auto'}>
@@ -60,7 +61,10 @@ const CustomTable = ({ users, isLoading }) => {
                 <Td>
                   <HStack>
                     <ActionCard color={'orange'}>
-                      <Icon as={FaUserEdit} />
+                      <Icon
+                        as={FaUserEdit}
+                        onClick={() => navigate(`/edit/${user?._id}`)}
+                      />
                     </ActionCard>
                     <ActionCard color={'red'}>
                       <Icon as={FaTrash} />
