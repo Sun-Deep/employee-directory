@@ -16,7 +16,7 @@ import InputField from '../../components/FormsUI/InputField'
 import BreadCrumb from '../../components/BreadCrumb'
 import { useEffect, useState } from 'react'
 import { getUserById, updateUserById } from '../../services/users'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useToastError, useToastSuccess } from '../../components/Toast'
 
 const FORM_VALIDATION = Yup.object().shape({
@@ -45,6 +45,7 @@ const EditUser = () => {
     base: 2,
     md: 1,
   })
+  const navigate = useNavigate()
 
   let { id } = useParams()
 
@@ -98,6 +99,7 @@ const EditUser = () => {
         toastSuccess({
           title: res.message,
         })
+        navigate('/')
       })
       .catch((err) => {
         setIsLoading(false)

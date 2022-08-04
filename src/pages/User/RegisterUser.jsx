@@ -17,6 +17,7 @@ import BreadCrumb from '../../components/BreadCrumb'
 import { useState } from 'react'
 import { registerUser } from '../../services/users'
 import { useToastError, useToastSuccess } from '../../components/Toast'
+import { useNavigate } from 'react-router-dom'
 
 const INITIAL_FORM_STATE = {
   name: '',
@@ -52,6 +53,7 @@ const RegisterUser = () => {
     base: 2,
     md: 1,
   })
+  const navigate = useNavigate()
   const toastError = useToastError()
   const toastSuccess = useToastSuccess()
 
@@ -78,6 +80,7 @@ const RegisterUser = () => {
         toastSuccess({
           title: res.message,
         })
+        navigate('/')
       })
       .catch((err) => {
         setIsLoading(false)
