@@ -1,9 +1,10 @@
-import { Heading, VStack } from '@chakra-ui/react'
+import { VStack } from '@chakra-ui/react'
+import CustomHeading from '../../components/CustomHeading'
 
 const Users = () => {
   return (
     <VStack alignSelf={'start'} spacing={5}>
-      <Heading>Employee List</Heading>
+      <CustomHeading title={'Employee List'} />
     </VStack>
   )
 }
