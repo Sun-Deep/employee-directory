@@ -9,3 +9,13 @@ export const getUsersList = async () => {
     throw new Error(error)
   }
 }
+
+// for register user
+export const registerUser = async (data) => {
+  try {
+    const res = await Axios.post('/user', { ...data })
+    return res
+  } catch (error) {
+    throw new Error(error)
+  }
+}
