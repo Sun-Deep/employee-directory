@@ -1,6 +1,7 @@
 import Axios from 'axios'
 
-const API_BASE_URL = 'http://localhost:8000/api'
+export const API_BASE_URL = 'http://localhost:8000/api'
+export const SERVER_BASE_URL = 'http://localhost:8000'
 
 const interceptorRequest = (config) => {
   return {

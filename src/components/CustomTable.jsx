@@ -1,4 +1,7 @@
 import {
+  HStack,
+  Icon,
+  Image,
   Table,
   TableContainer,
   Tbody,
@@ -7,11 +10,16 @@ import {
   Thead,
   Tr,
 } from '@chakra-ui/react'
+import { FaTrash, FaUserEdit } from 'react-icons/fa'
 import PropTypes from 'prop-types'
+
+import { SERVER_BASE_URL } from '../config/axios'
 import Loading from './Loading'
+import ActionCard from './ActionCard'
 
 const CustomTable = ({ users, isLoading }) => {
   console.log(users)
+
   return (
     <TableContainer w={'full'} overflowX={'auto'}>
       <Table variant="simple">
@@ -32,7 +40,36 @@ const CustomTable = ({ users, isLoading }) => {
                 <Loading />
               </Td>
             </Tr>
-          ) : null}
+          ) : (
+            users?.length > 0 &&
+            users?.map((user) => (
+              <Tr key={user._id} fontSize={'body'}>
+                <Td>
+                  <Image
+                    src={`${SERVER_BASE_URL}/${user.profile_image}`}
+                    w={'40px'}
+                    h={'40px'}
+                    borderRadius={'50%'}
+                    crossOrigin={'anonymous'}
+                  />
+                </Td>
+                <Td>{user?.name}</Td>
+                <Td>{user?.job_title}</Td>
+                <Td>{user?.department}</Td>
+                <Td>{user?.location}</Td>
+                <Td>
+                  <HStack>
+                    <ActionCard color={'orange'}>
+                      <Icon as={FaUserEdit} />
+                    </ActionCard>
+                    <ActionCard color={'red'}>
+                      <Icon as={FaTrash} />
+                    </ActionCard>
+                  </HStack>
+                </Td>
+              </Tr>
+            ))
+          )}
         </Tbody>
       </Table>
     </TableContainer>
