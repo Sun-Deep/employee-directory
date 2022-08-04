@@ -10,6 +10,7 @@ import {
   Thead,
   Tr,
   useDisclosure,
+  Text,
 } from '@chakra-ui/react'
 import { FaTrash, FaUserEdit } from 'react-icons/fa'
 import PropTypes from 'prop-types'
@@ -51,6 +52,12 @@ const CustomTable = ({ users, isLoading, setIsRefresh }) => {
             <Tr>
               <Td colSpan={6}>
                 <Loading />
+              </Td>
+            </Tr>
+          ) : users?.length === 0 ? (
+            <Tr>
+              <Td colSpan={6}>
+                <Text textAlign="center">No Data to show</Text>
               </Td>
             </Tr>
           ) : (
