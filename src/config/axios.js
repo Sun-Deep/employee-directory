@@ -26,6 +26,6 @@ Axios.interceptors.response.use(
     return response.data
   },
   (err) => {
-    return Promise.reject(err.response)
+    return Promise.reject(err.response.data)
   }
 )

@@ -1,6 +1,9 @@
 import {
   Button,
+  FormControl,
+  FormLabel,
   GridItem,
+  Input,
   SimpleGrid,
   useBreakpointValue,
   VStack,
@@ -11,10 +14,16 @@ import { Formik, Form } from 'formik'
 import CustomHeading from '../../components/CustomHeading'
 import InputField from '../../components/FormsUI/InputField'
 import BreadCrumb from '../../components/BreadCrumb'
+import { useState } from 'react'
+import { registerUser } from '../../services/users'
+import { useToastError, useToastSuccess } from '../../components/Toast'
 
 const INITIAL_FORM_STATE = {
+  name: '',
   email: '',
-  password: '',
+  job_title: '',
+  department: '',
+  location: '',
 }
 
 const FORM_VALIDATION = Yup.object().shape({
@@ -43,16 +52,50 @@ const RegisterUser = () => {
     base: 2,
     md: 1,
   })
+  const toastError = useToastError()
+  const toastSuccess = useToastSuccess()
+
+  const [image, setImage] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+
+  const handleFileChange = (event) => {
+    setImage(event.target.files && event.target.files[0])
+  }
+
+  const handleSubmit = (values) => {
+    setIsLoading(true)
+    const data = new FormData()
+    data.append('name', values.name)
+    data.append('email', values.email)
+    data.append('job_title', values.job_title)
+    data.append('department', values.department)
+    data.append('location', values.location)
+    data.append('profile_image', image)
+
+    registerUser(data)
+      .then((res) => {
+        setIsLoading(false)
+        toastSuccess({
+          title: res.message,
+        })
+      })
+      .catch((err) => {
+        setIsLoading(false)
+        toastError({
+          title: err,
+        })
+      })
+  }
+
   return (
     <VStack spacing={5} w={'full'}>
       <CustomHeading title={'Register Employee'} />
-      {/* <BreadCrumb items={BREADCRUMB} /> */}
       <Formik
         initialValues={{
           ...INITIAL_FORM_STATE,
         }}
         validationSchema={FORM_VALIDATION}
-        onSubmit={() => {}}
+        onSubmit={handleSubmit}
       >
         <Form>
           <SimpleGrid
@@ -89,14 +132,23 @@ const RegisterUser = () => {
               <InputField name="location" label="Location" />
             </GridItem>
             <GridItem colSpan={colSpan}>
-              <InputField
-                type={'file'}
-                name="profile_image"
-                label="Profile Image"
-              />
+              <FormControl>
+                <FormLabel>Profile Image</FormLabel>
+                <Input
+                  type={'file'}
+                  name={'profile_image'}
+                  onChange={handleFileChange}
+                  accept="image/*"
+                />
+              </FormControl>
             </GridItem>
             <GridItem colSpan={1}>
-              <Button variant={'primary'} size={'sm'}>
+              <Button
+                isLoading={isLoading}
+                type={'submit'}
+                variant={'primary'}
+                size={'sm'}
+              >
                 Save
               </Button>
             </GridItem>
