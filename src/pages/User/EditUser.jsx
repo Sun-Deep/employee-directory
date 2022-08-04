@@ -109,7 +109,7 @@ const EditUser = () => {
 
   return (
     <VStack spacing={5} w={'full'}>
-      <CustomHeading title={'Register Employee'} />
+      <CustomHeading title={'Edit Employee'} />
       <Formik
         enableReinitialize
         initialValues={{
