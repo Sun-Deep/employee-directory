@@ -9,6 +9,7 @@ import {
   Th,
   Thead,
   Tr,
+  useDisclosure,
 } from '@chakra-ui/react'
 import { FaTrash, FaUserEdit } from 'react-icons/fa'
 import PropTypes from 'prop-types'
@@ -17,9 +18,18 @@ import { SERVER_BASE_URL } from '../config/axios'
 import Loading from './Loading'
 import ActionCard from './ActionCard'
 import { useNavigate } from 'react-router-dom'
+import { useState } from 'react'
+import DeleteModal from './DeleteModal'
 
 const CustomTable = ({ users, isLoading }) => {
   const navigate = useNavigate()
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const [info, setInfo] = useState(null)
+
+  const handleDelete = (user) => {
+    setInfo(user)
+    onOpen()
+  }
 
   return (
     <TableContainer w={'full'} overflowX={'auto'}>
@@ -67,7 +77,7 @@ const CustomTable = ({ users, isLoading }) => {
                       />
                     </ActionCard>
                     <ActionCard color={'red'}>
-                      <Icon as={FaTrash} />
+                      <Icon as={FaTrash} onClick={() => handleDelete(user)} />
                     </ActionCard>
                   </HStack>
                 </Td>
@@ -76,6 +86,14 @@ const CustomTable = ({ users, isLoading }) => {
           )}
         </Tbody>
       </Table>
+      {isOpen && (
+        <DeleteModal
+          id={info._id}
+          name={info.name}
+          isOpen={isOpen}
+          onClose={onClose}
+        />
+      )}
     </TableContainer>
   )
 }
