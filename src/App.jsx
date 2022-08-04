@@ -6,7 +6,7 @@ import RegisterUser from './pages/User/RegisterUser'
 
 function App() {
   return (
-    <Container p={[2, 2, 5]} maxW={'full'} centerContent>
+    <Container p={[2, 2, 5]} maxW={'6xl'} w={'full'} centerContent>
       <Router>
         <Routes>
           <Route exact path="/" element={<Users />}></Route>
