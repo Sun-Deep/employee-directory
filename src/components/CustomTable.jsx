@@ -21,14 +21,16 @@ import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import DeleteModal from './DeleteModal'
 
-const CustomTable = ({ users, isLoading }) => {
+const CustomTable = ({ users, isLoading, setIsRefresh }) => {
   const navigate = useNavigate()
   const { isOpen, onOpen, onClose } = useDisclosure()
+
   const [info, setInfo] = useState(null)
 
   const handleDelete = (user) => {
     setInfo(user)
     onOpen()
+    setIsRefresh(false)
   }
 
   return (
@@ -88,6 +90,7 @@ const CustomTable = ({ users, isLoading }) => {
       </Table>
       {isOpen && (
         <DeleteModal
+          setIsRefresh={setIsRefresh}
           id={info._id}
           name={info.name}
           isOpen={isOpen}
@@ -101,6 +104,7 @@ const CustomTable = ({ users, isLoading }) => {
 CustomTable.propTypes = {
   isLoading: PropTypes.bool,
   users: PropTypes.array,
+  setIsRefresh: PropTypes.func,
 }
 
 export default CustomTable

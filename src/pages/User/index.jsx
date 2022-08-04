@@ -9,21 +9,32 @@ import { getUsersList } from '../../services/users'
 const Users = () => {
   const [users, setUsers] = useState([])
   const [isLoading, setIsLoading] = useState(false)
+  const [isRefresh, setIsRefresh] = useState(false)
 
   const navigate = useNavigate()
 
+  const getUsers = async () => {
+    let _users = await getUsersList()
+    setIsLoading(false)
+    setUsers(_users?.data)
+  }
+
   useEffect(() => {
     setIsLoading(true)
-    const getUsers = async () => {
-      let _users = await getUsersList()
-      setIsLoading(false)
-      setUsers(_users?.data)
-    }
     getUsers().catch((err) => {
       setIsLoading(false)
       console.log(err)
     })
   }, [])
+
+  useEffect(() => {
+    if (isRefresh) {
+      getUsers().catch((err) => {
+        setIsLoading(false)
+        console.log(err)
+      })
+    }
+  }, [isRefresh])
 
   return (
     <VStack spacing={5} w={'full'}>
@@ -37,7 +48,11 @@ const Users = () => {
       >
         Add Emmployee
       </Button>
-      <CustomTable isLoading={isLoading} users={users} />
+      <CustomTable
+        setIsRefresh={setIsRefresh}
+        isLoading={isLoading}
+        users={users}
+      />
     </VStack>
   )
 }

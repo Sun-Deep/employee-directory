@@ -39,3 +39,13 @@ export const updateUserById = async (id, data) => {
     throw error.data.error.message
   }
 }
+
+// for update user by ID
+export const deleteUserById = async (id) => {
+  try {
+    const res = await Axios.delete(`/user/${id}`)
+    return res
+  } catch (error) {
+    throw error.data.error.message
+  }
+}
